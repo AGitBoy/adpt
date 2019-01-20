@@ -57,7 +57,8 @@ static void version() {
 int sysfsadptstat() {
     FILE* fptr;
     int plugged; 
-
+    
+    // TODO: Multiple power adapters
     fptr = fopen("/sys/class/power_supply/ADP0/online", "r");
     
     if(fptr) {
@@ -77,8 +78,8 @@ int adptstatus() {
 
 int main(int argc, char **argv) {
     int plug, opt;
-    char *onstr  = "+";
-    char *offstr = "";
+    char *onstr  = "Plugged in";
+    char *offstr = "Not plugged in";
 
     while((opt = getopt_long(argc, argv, ":hvf:o:", long_options, NULL)) != -1) {
         switch(opt) {
