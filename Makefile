@@ -32,7 +32,7 @@ install: adpt
 	install -d $(DESTDIR)$(PREFIX)/bin
 	install -m 755 $(BINARY) $(DESTDIR)$(PREFIX)/bin
 
-run: apdt
+run: adpt
 	./$(BINARY)
 
 # vim: set noexpandtab tabstop=4:

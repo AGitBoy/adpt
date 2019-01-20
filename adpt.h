@@ -18,7 +18,6 @@
 #ifndef ADPT_H
 #define ADPT_H
 
-
 // Check if adapter is plugged in on a Linux system with sysfs
 int sysfsadptstat();
 

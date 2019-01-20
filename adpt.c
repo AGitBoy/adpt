@@ -21,6 +21,7 @@
 #include <stdio.h>
 #include <errno.h>
 #include <getopt.h>
+#include <string.h>
 
 static const char *versionstr = "adpt v1.0\n"
                                 "Copyright (C) 2019 Aidan Williams\n"
@@ -30,13 +31,17 @@ static const char *versionstr = "adpt v1.0\n"
                                 "Written by Aidan Williams\n";
 
 static const char *usagestr = "Usage: %s [OPTIONS]\n\n"
-                              "-v, --version\tPrints the version information\n"
-                              "-h, --help   \tPrints this help text\n";
+                              "-v, --version    \tPrints the version information\n"
+                              "-h, --help       \tPrints this help text\n"
+                              "-o, --on-string  \tSpecifies the string used when adapter is plugged in\n"
+                              "-f, --off-string \tSpecifies the string used when adapter is not plugged in\n";
 
 static struct option long_options[] = {
-    { "help",    no_argument, NULL, 'h' },
-    { "version", no_argument, NULL, 'v' },
-    { NULL,      0,           0,    0   }
+    { "help",       no_argument,       NULL, 'h' },
+    { "version",    no_argument,       NULL, 'v' },
+    { "on-string",  required_argument, NULL, 'o' },
+    { "off-string", required_argument, NULL, 'f' },
+    { NULL,         0,                 0,    0   }
 };
 
 void usage(char *progpth, int err) {
@@ -71,15 +76,22 @@ int adptstatus() {
 }
 
 int main(int argc, char **argv) {
-    int plug;
-    int opt;
+    int plug, opt;
+    char *onstr  = "+";
+    char *offstr = "";
 
-    while((opt = getopt_long(argc, argv, ":hv", long_options, NULL)) != -1) {
+    while((opt = getopt_long(argc, argv, ":hvf:o:", long_options, NULL)) != -1) {
         switch(opt) {
             case 'h':
                 usage(argv[0], EXIT_SUCCESS);
             case 'v':
                 version();
+            case 'o':
+                onstr  = strdup(optarg);
+                break;
+            case 'f':
+                offstr = strdup(optarg);
+                break;
             default:
                 usage(argv[0], EINVAL);
         }
@@ -88,9 +100,9 @@ int main(int argc, char **argv) {
     plug = adptstatus();
     
     if(plug) {
-        puts("+");
+        puts(onstr);
     } else {
-        puts("");
+        puts(offstr);
     }
 
     return 0;
