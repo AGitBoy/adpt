@@ -62,7 +62,7 @@ int sysfsadptstat()
 	// TODO: Multiple power adapters
 	fptr = fopen("/sys/class/power_supply/ADP0/online", "r");
 	
-	if(fptr) {
+	if (fptr) {
 		fscanf(fptr, "%d", &plugged);
 		fclose(fptr);
 	} else {
@@ -84,26 +84,26 @@ int main(int argc, char **argv)
 	char *onstr  = "Plugged in";
 	char *offstr = "Not plugged in";
 
-	while((opt = getopt_long(argc, argv, ":hvf:o:", long_options, NULL)) != -1) {
-		switch(opt) {
-			case 'h':
-				usage(argv[0], EXIT_SUCCESS);
-			case 'v':
-				version();
-			case 'o':
-				onstr  = strdup(optarg);
-				break;
-			case 'f':
-				offstr = strdup(optarg);
-				break;
-			default:
-				usage(argv[0], EINVAL);
+	while ((opt = getopt_long(argc, argv, ":hvf:o:", long_options, NULL)) != -1) {
+		switch (opt) {
+		case 'h':
+			usage(argv[0], EXIT_SUCCESS);
+		case 'v':
+			version();
+		case 'o':
+			onstr  = strdup(optarg);
+			break;
+		case 'f':
+			offstr = strdup(optarg);
+			break;
+		default:
+			usage(argv[0], EINVAL);
 		}
 	}
 
 	plug = adptstatus();
 	
-	if(plug) {
+	if (plug) {
 		puts(onstr);
 	} else {
 		puts(offstr);
