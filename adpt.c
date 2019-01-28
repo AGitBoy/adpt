@@ -44,17 +44,20 @@ static struct option long_options[] = {
     { NULL,         0,                 0,    0   }
 };
 
-void usage(char *progpth, int err) {
+void usage(char *progpth, int err)
+{
     fprintf(err ? stderr : stdout, usagestr, progpth);
     exit(err);
 }
 
-static void version() {
+static void version()
+{
     printf(versionstr);
     exit(0);
 }
 
-int sysfsadptstat() {
+int sysfsadptstat()
+{
     FILE* fptr;
     int plugged; 
     
@@ -72,11 +75,13 @@ int sysfsadptstat() {
     return plugged;
 }
 
-int adptstatus() {
+int adptstatus()
+{
     return sysfsadptstat();
 }
 
-int main(int argc, char **argv) {
+int main(int argc, char **argv)
+{
     int plug, opt;
     char *onstr  = "Plugged in";
     char *offstr = "Not plugged in";
