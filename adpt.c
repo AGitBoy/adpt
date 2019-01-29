@@ -91,10 +91,10 @@ int main(int argc, char **argv)
 		case 'v':
 			version();
 		case 'o':
-			onstr  = strdup(optarg);
+			onstr = optarg;
 			break;
 		case 'f':
-			offstr = strdup(optarg);
+			offstr = optarg;
 			break;
 		default:
 			usage(argv[0], EINVAL);
