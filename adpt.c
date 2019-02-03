@@ -26,7 +26,7 @@ static const char *versionstr = "adpt v1.0\n"
 				"License GPLv3+: GNU GPL version 3 or later <https://gnu.org/licenses/gpl.html>\n"
 				"This is free software: you are free to change and redistribute it.\n"
 				"There is NO WARRANTY, to the extent permitted by the law.\n\n"
-				"Written by Aidan Williams\n";
+				"Written by Aidan Williams";
 
 static const char *usagestr = "Usage: %s [OPTIONS]\n\n"
 			      "-v, --version    \tPrints the version information\n"
@@ -39,7 +39,7 @@ static struct option long_options[] = {
 	{ "version",    no_argument,       NULL, 'v' },
 	{ "on-string",  required_argument, NULL, 'o' },
 	{ "off-string", required_argument, NULL, 'f' },
-	{ NULL,	        0,		   0,    0   }
+	{ NULL, 0, NULL, 0 }
 };
 
 void usage(char *progpth, int err)
@@ -50,8 +50,8 @@ void usage(char *progpth, int err)
 
 static void version()
 {
-	printf(versionstr);
-	exit(0);
+	puts(versionstr);
+	exit(EXIT_SUCCESS);
 }
 
 int sysfsadptstat()
@@ -66,7 +66,12 @@ int sysfsadptstat()
 		fscanf(fptr, "%d", &plugged);
 		fclose(fptr);
 	} else {
-		fprintf(stderr, "Error opening file: %s", "/sys/class/power_supply/ADP0/online");
+		fprintf(
+			stderr,
+			"Error opening file: %s",
+			"/sys/class/power_supply/ADP0/online"
+		);
+
 		exit(EIO);
 	}
 	
@@ -80,9 +85,8 @@ int adptstatus()
 
 int main(int argc, char **argv)
 {
-	int plug, opt;
-	char *onstr  = "Plugged in";
-	char *offstr = "Not plugged in";
+	int opt;
+	char *onstr  = "Plugged in", *offstr = "Not plugged in";
 
 	while ((opt = getopt_long(argc, argv, ":hvf:o:", long_options, NULL)) != -1) {
 		switch (opt) {
@@ -101,13 +105,7 @@ int main(int argc, char **argv)
 		}
 	}
 
-	plug = adptstatus();
-	
-	if (plug) {
-		puts(onstr);
-	} else {
-		puts(offstr);
-	}
+	puts(adptstatus() ? onstr : offstr);
 
 	return 0;
 }
