@@ -38,6 +38,7 @@ clean:
 install: adpt
 	install -d $(DESTDIR)$(PREFIX)/$(BINDIR)
 	install -m $(BINPERMS) adpt $(DESTDIR)$(PREFIX)/$(BINDIR)
+	install -d $(DESTDIR)$(PREFIX)/$(DOCDIR)
 	install -m $(DOCPERMS) COPYING $(DESTDIR)$(PREFIX)/$(DOCDIR)
 	install -m $(DOCPERMS) README.md $(DESTDIR)$(PREFIX)/$(DOCDIR)
 	[ ! -f docs/adpt.1 ] || \
