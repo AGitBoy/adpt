@@ -17,6 +17,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+
 #include <errno.h>
 #include <getopt.h>
 #include <string.h>
@@ -59,10 +60,7 @@ int sysfsadptstat()
 	FILE* fptr;
 	int plugged; 
 	
-	// TODO: Multiple power adapters
-	fptr = fopen("/sys/class/power_supply/ADP0/online", "r");
-	
-	if (fptr) {
+	if ((fptr = fopen("/sys/class/power_supply/ADP0/online", "r"))) {
 		fscanf(fptr, "%d", &plugged);
 		fclose(fptr);
 	} else {
