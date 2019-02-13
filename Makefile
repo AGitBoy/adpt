@@ -13,26 +13,42 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-PREFIX ?= /usr/local
-BINARY ?= adpt
-CC ?= cc
+PREFIX   ?= /usr/local
+BINDIR   ?= bin
+MANDIR   ?= man/man1
+DOCDIR   ?= share/doc/adpt
+BINPERMS ?= 755
+DOCPERMS ?= 644
+
+STD ?= c99
+CC  ?= cc
 
 SOURCES := $(shell find -name "*.c")
 
 adpt: $(SOURCES)
-	$(CC) $(CFLAGS) -o $(BINARY) $(SOURCES)
+	$(CC) -std=$(STD) $(CFLAGS) -o adpt $(SOURCES)
 
 debug: $(SOURCES)
-	$(CC) $(CFLAGS) -g -o $(BINARY) $(SOURCES)
+	$(CC) -std=$(STD) $(CFLAGS) -g -o adpt $(SOURCES)
 
 clean:
-	[ ! -f $(BINARY) ] || rm $(BINARY)
+	[ ! -f adpt ] || rm adpt
+	[ ! -f docs/adpt.1 ] || rm docs/adpt.1
 
 install: adpt
-	install -d $(DESTDIR)$(PREFIX)/bin
-	install -m 755 $(BINARY) $(DESTDIR)$(PREFIX)/bin
+	install -d $(DESTDIR)$(PREFIX)/$(BINDIR)
+	install -m $(BINPERMS) adpt $(DESTDIR)$(PREFIX)/$(BINDIR)
+	install -m $(DOCPERMS) COPYING $(DESTDIR)$(PREFIX)/$(DOCDIR)
+	install -m $(DOCPERMS) README.md $(DESTDIR)$(PREFIX)/$(DOCDIR)
+	[ ! -f docs/adpt.1 ] || \
+		(install -d $(DESTDIR)$(PREFIX)/$(MANDIR) && \
+		install -m $(DOCPERMS) docs/adpt.1 $(DESTDIR)$(PREFIX)/$(MANDIR) && \
+		gzip -f $(DESTDIR)$(PREFIX)/$(MANDIR)/adpt.1)
 
 run: adpt
-	./$(BINARY)
+	./adpt
 
-# vim: set noexpandtab tabstop=8:
+.PHONY: docs
+docs: docs/adpt.1.ronn
+	ronn -r docs/adpt.1.ronn
+

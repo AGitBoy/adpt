@@ -42,7 +42,7 @@ static struct option long_options[] = {
 	{ NULL, 0, NULL, 0 }
 };
 
-void usage(char *progpth, int err)
+static void usage(char *progpth, int err)
 {
 	fprintf(err ? stderr : stdout, usagestr, progpth);
 	exit(err);

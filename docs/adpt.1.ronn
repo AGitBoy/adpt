@@ -1,0 +1,36 @@
+adpt(1) -- prints adapter status
+================================
+
+## SYNOPSIS
+
+`adpt` [OPTIONS]
+
+## DESCRIPTION
+
+Prints out the adapter status, optionally with arbitrary status strings.
+
+## OPTIONS
+
+* `-f`, `--off-string`=<STRING>:
+    Sets output string when the adapter is unplugged as specified by <STRING>
+
+* `-h`, `--help`:
+    Prints the help text
+
+* `-o`, `--on-string`=<STRING>:
+    Sets output string when the adapter is plugged in as specified by <STRING>
+
+* `-v`, `--version`:
+    Prints the version information
+
+## AUTHOR
+
+Written by Aidan Williams
+
+## COPYRIGHT
+```
+Copyright (C) 2019 Aidan Williams
+License GPLv3+: GNU GPL version 3 or later <https://gnu.org/licenes/gpl.html>
+This is free software; you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+```
