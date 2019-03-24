@@ -24,7 +24,8 @@
 #include <getopt.h>
 #include <string.h>
 
-static const char *versionstr = "adpt v1.0\n"
+static const char *versionstr =
+	"adpt v1.0\n"
 	"Copyright (C) 2019 Aidan Williams\n"
 	"License GPLv3+: GNU GPL version 3 or later "
 	"<https://gnu.org/licenses/gpl.html>\n"
@@ -32,7 +33,8 @@ static const char *versionstr = "adpt v1.0\n"
 	"There is NO WARRANTY, to the extent permitted by the law.\n\n"
 	"Written by Aidan Williams";
 
-static const char *usagestr = "Usage: %s [OPTIONS]\n\n"
+static const char *usagestr =
+	"Usage: %s [OPTIONS]\n\n"
 	"-v, --version    \tPrints the version information\n"
 	"-h, --help       \tPrints this help text\n"
 	"-o, --on-string  \tSpecifies the string used when adapter is plugged in\n"
@@ -43,7 +45,7 @@ static struct option long_options[] = {
 	{ "version",    no_argument,       NULL, 'v' },
 	{ "on-string",  required_argument, NULL, 'o' },
 	{ "off-string", required_argument, NULL, 'f' },
-	{ NULL, 0, NULL, 0 }
+	{ NULL,         0,                 NULL, 0   }
 };
 
 

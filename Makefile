@@ -23,7 +23,7 @@ DOCPERMS ?= 644
 STD ?= c99
 CC  ?= cc
 
-SOURCES := $(shell find -name "*.c")
+SOURCES := adpt.c
 
 adpt: $(SOURCES)
 	$(CC) -std=$(STD) $(CFLAGS) -o adpt $(SOURCES)
