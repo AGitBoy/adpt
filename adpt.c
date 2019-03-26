@@ -68,7 +68,7 @@ static void version()
 // Internal for getting status of sysfs adapters
 int sysfsadptstat()
 {
-	FILE* fptr;
+	FILE *fptr;
 	int plugged; 
 	
 	if ((fptr = fopen("/sys/class/power_supply/ADP0/online", "r"))) {
@@ -77,11 +77,12 @@ int sysfsadptstat()
 	} else {
 		fprintf(
 			stderr,
-			"Error opening file: %s",
+			"%s: %s",
+			strerror(errno),
 			"/sys/class/power_supply/ADP0/online"
 		);
 
-		exit(EIO);
+		exit(errno);
 	}
 	
 	return plugged;
@@ -98,12 +99,13 @@ int adptstatus()
 int main(int argc, char **argv)
 {
 	int opt;
-	char *onstr = ONSTR, *offstr = OFFSTR;
+	char *onstr = ONSTR;
+	char *offstr = OFFSTR;
 
 	while ((opt = getopt_long(argc, argv, ":hvf:o:", long_options, NULL)) != -1) {
 		switch (opt) {
 		case 'h':
-			usage(argv[0], EXIT_SUCCESS);
+			usage(argv[0], 0);
 		case 'v':
 			version();
 		case 'o':
