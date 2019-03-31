@@ -24,6 +24,15 @@
 #include <getopt.h>
 #include <string.h>
 
+#if defined(__FreeBSD__)
+#include <unistd.h>
+#include <stdint.h>
+#include <fcntl.h>
+#include <sys/ioctl.h>
+#include <dev/acpica/acpiio.h>
+#include <libexplain/ioctl.h>
+#endif
+
 static const char *versionstr =
 	"adpt v1.0\n"
 	"Copyright (C) 2019 Aidan Williams\n"
@@ -65,6 +74,7 @@ static void version()
 }
 
 
+#if defined(__linux) 
 // Internal for getting status of sysfs adapters
 int sysfsadptstat()
 {
@@ -86,12 +96,48 @@ int sysfsadptstat()
 	
 	return plugged;
 }
+#endif
 
+#if defined(__FreeBSD__)
+int bsdadptstat() 
+{
+	static int acpi;
+	int status;
+
+	acpi = open("/dev/acpi", O_RDWR);
+	if (acpi < 0)
+		acpi = open("/dev/acpi", O_RDONLY);
+	
+	if (acpi < 0) {
+		fprintf(stderr, "%s: %s\n", strerror(errno), "/dev/acpi");
+		exit(errno);	
+	}
+	
+	if (ioctl(acpi, ACPIIO_ACAD_GET_STATUS, &status) < 0) {
+		fprintf(
+			stderr,
+			"ioctl error for adapter: %s",
+			explain_ioctl(acpi, ACPIIO_ACAD_GET_STATUS, &status)
+		);
+
+		exit(EXIT_FAILURE);
+	}
+
+	return status;
+}
+#endif
 
 // Gets the status of adpater
 int adptstatus()
 {
+#if defined(__linux)
 	return sysfsadptstat();
+#elif defined(__FreeBSD__)
+	return bsdadptstat();
+#else
+	fputs("Unsupported platform");
+	exit(EXIT_FAILURE);
+#endif
 }
 
 
