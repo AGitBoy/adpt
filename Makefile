@@ -23,13 +23,17 @@ DOCPERMS ?= 644
 STD ?= c99
 CC  ?= cc
 
+ifeq ($(shell uname),FreeBSD)
+	BSDFLAGS := $(shell pkg-config --cflags --libs libexplain)
+endif
+
 SOURCES := adpt.c
 
 adpt: $(SOURCES)
-	$(CC) -std=$(STD) $(CFLAGS) -o adpt $(SOURCES)
+	$(CC) $(BSDFLAGS) -std=$(STD) $(CFLAGS) -o adpt $(SOURCES)
 
 debug: $(SOURCES)
-	$(CC) -std=$(STD) $(CFLAGS) -g -o adpt $(SOURCES)
+	$(CC) $(BSDFLAGS) -std=$(STD) $(CFLAGS) -g -o adpt $(SOURCES)
 
 clean:
 	[ ! -f adpt ] || rm adpt
