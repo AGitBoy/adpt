@@ -87,7 +87,7 @@ int sysfsadptstat()
     } else {
         fprintf(
             stderr,
-            "%s: %s",
+            "%s: %s\n",
             strerror(errno),
             "/sys/class/power_supply/ADP0/online"
         );
@@ -136,7 +136,7 @@ int adptstatus()
 #elif defined(__FreeBSD__)
     return bsdadptstat();
 #else
-    fputs("Unsupported platform");
+    fputs("Unsupported platform\n", stderr);
     exit(EXIT_FAILURE);
 #endif
 }
