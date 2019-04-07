@@ -1,4 +1,4 @@
-# [THIS PROJECT HAS BEEN MIGRATED TO GITLAB](https://github.com/AGitBoy/adpt)
+# [THIS PROJECT HAS BEEN MIGRATED TO GITLAB](https://gitlab.com/AGitBoy/adpt)
 
 # adpt
 This project prints out the adapter status on GNU/Linux and FreeBSD
